@@ -14,7 +14,6 @@ deployment:
       events:
         topic: "websub-events"
         consumerId: "consolidator-websub-events-consumer"
-
     store:
       solace:
         url: "tcp://localhost:55554"
@@ -36,8 +35,7 @@ deployment:
 
 ingress:
   hosts:
-    - host: wso2-websubhub.local
+    - host: wso2-websubhub-consolidator.local
       paths:
-        - path: /hub
+        - path: /consolidator
           pathType: Prefix
-  tls: []
