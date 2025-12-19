@@ -1,0 +1,43 @@
+deployment:
+  replicas: 1
+  image:
+    repository: "wso2/websubhub-consolidator"
+    pullPolicy: IfNotPresent
+    tag: 1.0.0-M1
+  config:
+    server:
+      port: 10001
+    state:
+      snapshot:
+        topic: "websub-events-snapshot"
+        consumerId: "websub-events-snapshot-consumer"
+      events:
+        topic: "websub-events"
+        consumerId: "consolidator-websub-events-consumer"
+
+    store:
+      solace:
+        url: "tcp://localhost:55554"
+        messageVpn: "default"
+        auth:
+          username: "admin"
+          password: "admin"
+        consumer:
+          receiveTimeout: 10.0
+        admin:
+          url: "http://localhost:8080/SEMP/v2/config"
+          timeout: 30.0
+          auth:
+            username: "admin"
+            password: "admin"
+    logging:
+      level: "INFO"
+
+
+ingress:
+  hosts:
+    - host: wso2-websubhub.local
+      paths:
+        - path: /hub
+          pathType: Prefix
+  tls: []
