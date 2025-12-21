@@ -27,24 +27,21 @@ deployment:
           username: "admin"
           password: "admin"
         consumer:
-          receiveTimeout: 10.0
+          receiveTimeout: "10.0"
         admin:
           url: "http://localhost:8080/SEMP/v2/config"
-          timeout: 30.0
+          timeout: "30.0"
           auth:
             username: "admin"
             password: "admin"
     delivery:
-      timeout: 60.0
+      timeout: "60.0"
       retry:
         count: 3
-        interval: 3.0
-        backOffFactor: 2.0
-        maxWaitInterval: 20.0
-        statusCodes:
-          - 500
-          - 502
-          - 503
+        interval: "3.0"
+        backOffFactor: "2.0"
+        maxWaitInterval: "20.0"
+        statusCodes: [500, 502, 503]
     logging:
       level: "INFO"
 

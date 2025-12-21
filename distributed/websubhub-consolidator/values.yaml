@@ -22,10 +22,10 @@ deployment:
           username: "admin"
           password: "admin"
         consumer:
-          receiveTimeout: 10.0
+          receiveTimeout: "10.0"
         admin:
           url: "http://localhost:8080/SEMP/v2/config"
-          timeout: 30.0
+          timeout: "30.0"
           auth:
             username: "admin"
             password: "admin"
