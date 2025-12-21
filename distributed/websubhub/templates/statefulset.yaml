@@ -23,6 +23,7 @@ metadata:
   labels:
     app: {{ .Release.Name }}
 spec:
+  serviceName: {{ .Release.Name }}-service
   replicas: {{ .Values.deployment.replicas }}
   selector:
     matchLabels:
@@ -37,13 +38,43 @@ spec:
           image: {{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}
           imagePullPolicy: {{ .Values.deployment.image.pullPolicy }}
           ports:
-            - containerPort: {{ .Values.deployment.config.server.port }}
+            - name: http
+              containerPort: {{ .Values.deployment.config.server.port }}
+          livenessProbe:
+            httpGet:
+              path: /health/liveness
+              port: http
+              scheme: {{ if .Values.deployment.config.server.secureSocket.enabled }}HTTPS{{ else }}HTTP{{ end }}
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health/readiness
+              port: http
+              scheme: {{ if .Values.deployment.config.server.secureSocket.enabled }}HTTPS{{ else }}HTTP{{ end }}
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: {{ .Values.deployment.resources.requests.cpu }}
+              memory: {{ .Values.deployment.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.deployment.resources.limits.cpu }}
+              memory: {{ .Values.deployment.resources.limits.memory }}
           env:
+            - name: "SERVER_ID"
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
             - name: "BAL_CONFIG_FILES"
-              value: "/home/ballerina/conf/Config.toml"
+              value: "/home/wso2/conf/Config.toml"
           volumeMounts:
             - name: "config-config-map-volume"
-              mountPath: "/home/ballerina/conf"
+              mountPath: "/home/wso2/conf"
               readOnly: true
 
       volumes:

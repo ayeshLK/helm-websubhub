@@ -4,6 +4,13 @@ deployment:
     repository: "wso2/websubhub"
     pullPolicy: IfNotPresent
     tag: 1.0.0-M1
+  resources:
+    requests:
+      cpu: "1"
+      memory: "512Mi"
+    limits:
+      cpu: "2"
+      memory: "1Gi"
   config:
     server:
       port: 9000
