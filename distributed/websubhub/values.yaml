@@ -46,7 +46,3 @@ deployment:
         statusCodes: [500, 502, 503]
     logging:
       level: "INFO"
-
-  ingress:
-    host: "*.websubhub.wso2.dev"
-    secretName: "websubhub-wildcard-tls"
