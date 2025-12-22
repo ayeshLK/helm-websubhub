@@ -46,3 +46,16 @@ deployment:
         statusCodes: [500, 502, 503]
     logging:
       level: "INFO"
+
+ingress:
+  enabled: true
+  className: "nginx"
+  hosts:
+    - host: websubhub.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+   - secretName: websubhub-tls
+     hosts:
+       - websubhub.local
