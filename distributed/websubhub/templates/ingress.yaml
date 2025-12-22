@@ -16,7 +16,6 @@
 # under the License.
 #------------------------------------------------------------------------------------
 
-{{- if .Values.ingress.enabled -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -54,4 +53,34 @@ spec:
                   number: {{ $.Values.deployment.config.server.port }}
           {{- end }}
     {{- end }}
-{{- end }}
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: websubhub-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/auth-tls-secret: {{ printf "%s/%s" .Release.Namespace .Values.deployment.mtls.ca.secretName | quote }}
+    nginx.ingress.kubernetes.io/auth-tls-verify-depth: {{ .Values.deployment.mtls.tlsVerifyDepth | quote }}
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: {{ .Values.deployment.mtls.tlsVerifyClient | quote }}
+    nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: {{ .Values.deployment.mtls.tlsPassCertificateToUpstream | quote }}
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+      - {{ .Values.deployment.ingress.host | quote }}
+    secretName: {{ .Values.deployment.ingress.secretName }}
+  rules:
+  - host: {{ .Values.deployment.ingress.host | quote }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: websubhubhub-svc
+            port:
+              number: 9000
+
