@@ -46,11 +46,3 @@ deployment:
         statusCodes: [500, 502, 503]
     logging:
       level: "INFO"
-
-# ingress:
-#   hosts:
-#     - host: wso2-websubhub.local
-#       paths:
-#         - path: /hub
-#           pathType: Prefix
-#   tls: []
