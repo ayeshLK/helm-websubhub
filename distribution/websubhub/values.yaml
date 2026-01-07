@@ -14,18 +14,17 @@ deployment:
   image:
     repository: "wso2/wso2websubhub"
     pullPolicy: IfNotPresent
-    tag: "1.0.0-M1-RC5"
+    tag: "1.0.0-M1-RC6"
   resources:
     requests:
-      cpu: "1"
-      memory: "1Gi"
+      cpu: "1.5"
+      memory: "512Mi"
     limits:
       cpu: "2"
-      memory: "2Gi"
+      memory: "1.5Gi"
   config:
     server:
       port: 9000
-      id: "websubhub-1"
     state:
       snapshot:
         url: "http://websubhub-consolidator-service:10001/consolidator/state-snapshot"
@@ -36,6 +35,8 @@ deployment:
       solace:
         url: "tcp://solace-pubsubplus-dev:55555"
         messageVpn: "default"
+        connectionTimeout: "60.0"
+        readTimeout: "30.0"
         auth:
           username: "admin"
           password: "password"

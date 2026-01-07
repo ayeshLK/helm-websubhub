@@ -58,13 +58,13 @@ spec:
             periodSeconds: 5
             timeoutSeconds: 3
             failureThreshold: 3
-          # resources:
-          #   requests:
-          #     cpu: {{ .Values.deployment.resources.requests.cpu }}
-          #     memory: {{ .Values.deployment.resources.requests.memory }}
-          #   limits:
-          #     cpu: {{ .Values.deployment.resources.limits.cpu }}
-          #     memory: {{ .Values.deployment.resources.limits.memory }}
+          resources:
+            requests:
+              cpu: {{ .Values.deployment.resources.requests.cpu }}
+              memory: {{ .Values.deployment.resources.requests.memory }}
+            limits:
+              cpu: {{ .Values.deployment.resources.limits.cpu }}
+              memory: {{ .Values.deployment.resources.limits.memory }}
           env:
             - name: "SERVER_ID"
               valueFrom:

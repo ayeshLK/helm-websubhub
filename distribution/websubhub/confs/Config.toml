@@ -1,6 +1,5 @@
 [websubhub.config.server]
 port = {{ .Values.deployment.config.server.port }}
-id = "{{ .Values.deployment.config.server.id }}"
 
 [websubhub.config.state.snapshot]
 url = "{{ .Values.deployment.config.state.snapshot.url }}"
